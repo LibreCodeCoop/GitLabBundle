@@ -61,11 +61,9 @@ class TimesheetSubscriber implements EventSubscriberInterface
         return [
             TimesheetCreatePostEvent::class => ['onAction', 100],
             TimesheetUpdatePostEvent::class => ['onAction', 100],
-            TimesheetUpdateMultiplePostEvent::class => ['onAction', 100],
             TimesheetDuplicatePostEvent::class => ['onAction', 100],
             TimesheetStopPostEvent::class => ['onAction', 100],
-            TimesheetDeletePreEvent::class => ['onAction', 100],
-            TimesheetDeleteMultiplePreEvent::class => ['onAction', 100]
+            TimesheetDeletePreEvent::class => ['onAction', 100]
         ];
     }
 

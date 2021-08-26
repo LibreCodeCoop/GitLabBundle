@@ -61,11 +61,9 @@ When you do any of these actions:
 
 * `TimesheetCreatePostEvent`
 * `TimesheetUpdatePostEvent`
-* `TimesheetUpdateMultiplePostEvent`
 * `TimesheetDuplicatePostEvent`
 * `TimesheetStopPostEvent`
 * `TimesheetDeletePreEvent`
-* `TimesheetDeleteMultiplePreEvent`
 
 The plugin will identify if it has an issueId, having issueId a query will be performed to add the time spent of all records in the project that have an issueId equal to the issueId sent.
 
