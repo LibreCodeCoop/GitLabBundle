@@ -39,7 +39,9 @@ You could also [download it as zip](https://github.com/LibreCode/GitLabBundle/ar
 #### Project settings
 
 * Get the GitLab project id going to GitLab repository
+
   ![settings](Resources/assets/images/gitlab_project_id.png)
+
 * Edit or create a Kimai project associated to GitLab repository and fill the GitLab project ID:
 
   ![settings](Resources/assets/images/project_settings.png)
