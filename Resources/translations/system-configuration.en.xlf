@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" target-language="de" datatype="plaintext" original="system-configuration.en.xlf">
+        <body>
+            <trans-unit id="gitlab">
+              <source>gitlab</source>
+              <target>GitLab</target>
+            </trans-unit>
+            <trans-unit id="label.gitlab.private_token">
+                <source>label.gitlab.private_token</source>
+                <target>Private token</target>
+            </trans-unit>
+            <trans-unit id="help.gitlab.private_token">
+                <source>help.gitlab.private_token</source>
+                <target>Generate a GitLab private token with scope "api". See GitLab documentation for more information: https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html</target>
+            </trans-unit>
+            <trans-unit id="label.gitlab.instance_base_url">
+                <source>label.gitlab.instance_base_url</source>
+                <target>Instance base URL</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

@@ -1,0 +1,59 @@
+{
+    "name": "librecodecoop/kimai-gitlab-plugin",
+    "description": "Integrate GitLab estimate and spend to Kimai",
+    "homepage": "https://github.com/librecodecoop/kimai-gitlab-plugin",
+    "type": "kimai-plugin",
+    "version": "0.1",
+    "keywords": [
+        "kimai",
+        "kimai-plugin"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Vitor Mattos",
+            "email": "vitor@php.rio",
+            "homepage": "https://github.com/vitormattos"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "KimaiPlugin\\GitlabBundle\\": ""
+        }
+    },
+    "config": {
+        "platform": {
+            "php": "8.0"
+        },
+        "preferred-install": {
+            "*": "dist"
+        },
+        "sort-packages": true
+    },
+    "extra": {
+        "kimai": {
+            "require": "1.11",
+            "version": "0.1",
+            "name": "GitLab integration"
+        }
+    },
+    "scripts": {
+        "codestyle": "php-cs-fixer fix --dry-run --verbose --show-progress=none",
+        "codestyle-fix": "php-cs-fixer fix",
+        "codestyle-check": "vendor/bin/php-cs-fixer fix --dry-run --verbose --config=.php_cs.dist --using-cache=no --show-progress=none --format=checkstyle",
+        "phpstan": "vendor/bin/phpstan analyse . -c phpstan.neon --level=7",
+        "linting": [
+            "composer validate",
+            "@codestyle-check",
+            "@phpstan"
+        ]
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.15",
+        "phpstan/phpstan": "^0.12.19",
+        "phpstan/phpstan-doctrine": "^0.12.10",
+        "kevinpapst/kimai2": "1.11",
+        "symfony/console": "^4.0",
+        "symfony/event-dispatcher": "^4.0"
+    }
+}
