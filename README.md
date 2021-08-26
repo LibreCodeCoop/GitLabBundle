@@ -44,10 +44,14 @@ You could also [download it as zip](https://github.com/LibreCode/GitLabBundle/ar
 
   ![settings](Resources/assets/images/project_settings.png)
 
+  > PS: You only will see this field if you configure the GitLab private token
+
 #### Associate specific timesheet to GitLab
 * On create or edit form you will see the GitLab issue ID field:
 
   ![settings](Resources/assets/images/gitlab_issue_id.png)
+
+  > PS: You only will see this field if you configure the GitLab private token
 
 ## Results
 
