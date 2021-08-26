@@ -28,17 +28,18 @@ final class SystemConfigurationSubscriber implements EventSubscriberInterface
 
     public function onSystemConfiguration(SystemConfigurationEvent $event)
     {
-        $event->addConfiguration(
-            (new SystemConfigurationModel())
+        $event->addConfiguration((new SystemConfigurationModel())
             ->setSection('gitlab')
             ->setConfiguration([
                 (new Configuration())
-                    ->setName('gitlab.private_token')
+                    ->setName('gitlab_private_token')
+                    ->setLabel('gitlab.private_token')
                     ->setOptions(['help' => 'help.gitlab.private_token'])
                     ->setTranslationDomain('system-configuration')
                     ->setType(TextType::class),
                 (new Configuration())
-                    ->setName('gitlab.instance_base_url')
+                    ->setName('gitlab_instance_base_url')
+                    ->setLabel('gitlab.instance_base_url')
                     ->setTranslationDomain('system-configuration')
                     ->setType(UrlType::class),
             ])

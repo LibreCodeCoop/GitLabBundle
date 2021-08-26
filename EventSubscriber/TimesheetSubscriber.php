@@ -22,6 +22,7 @@ use App\Event\TimesheetUpdateMultiplePostEvent;
 use App\Event\TimesheetUpdatePostEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class TimesheetSubscriber implements EventSubscriberInterface
@@ -42,12 +43,17 @@ class TimesheetSubscriber implements EventSubscriberInterface
      * @var string
      */
     private $gitLabToken;
+    /**
+     * @var string
+     */
+    private $gitLabBaseUrl;
     public function __construct(SystemConfiguration $configuration, EntityManagerInterface $entityManager, HttpClientInterface $client)
     {
         $this->configuration = $configuration;
         $this->entityManager = $entityManager;
         $this->client = $client;
-        $this->gitlabToken = $this->configuration->find('gitlab.private_token');
+        $this->gitLabToken = $this->configuration->find('gitlab_private_token');
+        $this->gitLabBaseUrl = $this->configuration->find('gitlab_instance_base_url');
     }
 
     public static function getSubscribedEvents()
@@ -65,7 +71,7 @@ class TimesheetSubscriber implements EventSubscriberInterface
 
     public function onAction(AbstractTimesheetEvent $event): void
     {
-        if (!$this->gitlabToken) {
+        if (!$this->gitLabToken) {
             return;
         }
         $timesheet = $event->getTimesheet();
@@ -79,7 +85,7 @@ class TimesheetSubscriber implements EventSubscriberInterface
             return;
         }
         $totalDuration = $this->sumDuration($projectId->getValue(), $issueId->getValue());
-        $this->updateSpend($projectId, $issueId, $totalDuration);
+        $this->updateSpend($projectId->getValue(), $issueId->getValue(), $totalDuration);
     }
 
     private function sumDuration($projectId, $issueId): int
@@ -105,9 +111,39 @@ class TimesheetSubscriber implements EventSubscriberInterface
 
     private function updateSpend($projectId, $issueId, $totalDuration)
     {
-        $response = $this->client->request(
-            'GET',
-            'https://api.github.com/repos/symfony/symfony-docs'
-        );
+        $humanDuration = $this->secondsToHuman($totalDuration);
+        try {
+            $response = $this->client->request(
+                'POST',
+                $this->gitLabBaseUrl . '/api/v4/projects/' . $projectId . '/issues/' . $issueId . '/reset_spent_time', [
+                'headers' => [
+                    'PRIVATE-TOKEN' => $this->gitLabToken,
+                ],
+            ]);
+            $response = $this->client->request(
+                'POST',
+                $this->gitLabBaseUrl . '/api/v4/projects/' . $projectId . '/issues/' . $issueId . '/add_spent_time?duration=' . $humanDuration, [
+                'headers' => [
+                    'PRIVATE-TOKEN' => $this->gitLabToken,
+                ],
+            ]);
+        } catch (TransportExceptionInterface $e) {
+        }
+    }
+
+    private function secondsToHuman(int $totalDuration): string
+    {
+        $human = '';
+
+        $hours = intdiv(intdiv($totalDuration, 60), 60);
+        if ($hours >= 1) {
+            $human = $hours.'h';
+        }
+
+        $min = ($totalDuration / 60) % 60;
+        if ($min) {
+            $human.= $min . 'm';
+        }
+        return $human;
     }
 }

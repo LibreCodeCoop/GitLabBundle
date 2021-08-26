@@ -32,7 +32,7 @@ class MetaFieldSubscriber implements EventSubscriberInterface
     public function __construct(SystemConfiguration $configuration)
     {
         $this->configuration = $configuration;
-        $this->gitlabToken = $this->configuration->find('gitlab.private_token');
+        $this->gitlabToken = $this->configuration->find('gitlab_private_token');
     }
 
     public static function getSubscribedEvents(): array
