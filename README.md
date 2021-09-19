@@ -13,8 +13,7 @@ git clone https://github.com/LibreCode/GitLabBundle.git
 And then rebuild the cache: 
 ```
 cd /kimai/
-bin/console cache:clear
-bin/console cache:warmup
+bin/console kimai:reload -n
 ```
 
 You could also [download it as zip](https://github.com/LibreCode/GitLabBundle/archive/master.zip) and upload the directory via FTP:
