@@ -1,7 +1,7 @@
 {
     "name": "librecodecoop/kimai-gitlab-plugin",
     "description": "Integrate GitLab estimate and spend to Kimai",
-    "homepage": "https://github.com/librecodecoop/kimai-gitlab-plugin",
+    "homepage": "https://github.com/librecodecoop/GitLabBundle",
     "type": "kimai-plugin",
     "version": "0.1",
     "keywords": [
