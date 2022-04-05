@@ -83,6 +83,9 @@ class TimesheetSubscriber implements EventSubscriberInterface
             return;
         }
         $totalDuration = $this->sumDuration($projectId->getValue(), $issueId->getValue());
+        if ($totalDuration < 1) {                                                      
+            return;                                                                    
+        }
         $this->updateSpend($projectId->getValue(), $issueId->getValue(), $totalDuration);
     }
 
@@ -103,8 +106,11 @@ class TimesheetSubscriber implements EventSubscriberInterface
             ->andWhere($qb->expr()->eq('pm.value', ':projectMetaValue'))
             ->setParameter('projectMetaValue', $projectId)
             ->groupBy('p.id');
-
-        return (int) $qb->getQuery()->getSingleScalarResult();
+        try {                                                                          
+            return (int) $qb->getQuery()->getSingleScalarResult();                     
+        } catch (\Doctrine\ORM\NoResultException $e) {                                 
+            return 0;                                                                  
+        }
     }
 
     private function updateSpend($projectId, $issueId, $totalDuration)
