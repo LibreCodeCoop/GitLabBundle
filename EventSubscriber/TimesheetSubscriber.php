@@ -74,7 +74,7 @@ class TimesheetSubscriber implements EventSubscriberInterface
         }
         $timesheet = $event->getTimesheet();
         $issueId = $timesheet->getMetaField('gitlab_issue_id');
-        if (!$issueId) {
+        if ($issueId->getValue() < 1) {
             return;
         }
         $project = $timesheet->getProject();
@@ -83,8 +83,8 @@ class TimesheetSubscriber implements EventSubscriberInterface
             return;
         }
         $totalDuration = $this->sumDuration($projectId->getValue(), $issueId->getValue());
-        if ($totalDuration < 1) {                                                      
-            return;                                                                    
+        if ($totalDuration < 1) {
+            return;
         }
         $this->updateSpend($projectId->getValue(), $issueId->getValue(), $totalDuration);
     }
@@ -106,10 +106,10 @@ class TimesheetSubscriber implements EventSubscriberInterface
             ->andWhere($qb->expr()->eq('pm.value', ':projectMetaValue'))
             ->setParameter('projectMetaValue', $projectId)
             ->groupBy('p.id');
-        try {                                                                          
-            return (int) $qb->getQuery()->getSingleScalarResult();                     
-        } catch (\Doctrine\ORM\NoResultException $e) {                                 
-            return 0;                                                                  
+        try {
+            return (int) $qb->getQuery()->getSingleScalarResult();
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return 0;
         }
     }
 
